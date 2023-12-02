@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Space } from 'antd';
-import HeaderComp from '../core/header';
+import HeaderComp from './header';
 const { Header, Content } = Layout;
 const headerStyle = {
   textAlign: 'center',
