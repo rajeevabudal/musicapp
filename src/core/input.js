@@ -1,6 +1,6 @@
 import React from "react";
 import { Input } from "antd";
-const InputComp = ({ placeHolder, className, onKeyDown }) => (
-  <Input placeholder={placeHolder} className={className} onKeyDown={onKeyDown}/>
+const InputComp = ({ placeHolder, className, onKeyUp }) => (
+  <Input placeholder={placeHolder} className={className} onKeyUp={onKeyUp}/>
 );
 export default InputComp;

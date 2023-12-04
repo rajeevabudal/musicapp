@@ -1,10 +1,15 @@
 import React from "react";
+import {useDispatch} from "react-redux";
 import MenuComp from "../core/menu";
 import InputComp from "../core/input";
+import {searchSong} from "../redux/movieslice";
 import "./layout.css";
 const HeaderComp = () => {
+  const dispatch = useDispatch();
   const handleInput=(e)=>{
-    console.log(e.target.value)
+    if(e.key === "Enter"){
+      dispatch(searchSong(e.target.value))
+    }
   }
   return (
     <>
@@ -13,7 +18,7 @@ const HeaderComp = () => {
       <InputComp
         placeHolder="Search for the Song / Artist / Album"
         className="headerInput"
-        onKeyDown={handleInput}
+        onKeyUp={(e)=>handleInput(e)}
       />
     </>
   );

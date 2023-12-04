@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Space } from 'antd';
 import HeaderComp from './header';
+import ContentComp from './content';
 const { Header, Content } = Layout;
 const headerStyle = {
   textAlign: 'center',
@@ -22,7 +23,7 @@ const Home = () => (
   >
     <Layout>
       <Header style={headerStyle}><HeaderComp/></Header>
-      <Content style={contentStyle}></Content>
+      <Content style={contentStyle}><ContentComp/></Content>
     </Layout>
   </Space>
 );
