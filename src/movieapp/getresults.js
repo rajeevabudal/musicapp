@@ -13,7 +13,7 @@ const GetMovieAppResults = () => {
         method: 'GET',
         url: 'https://spotify23.p.rapidapi.com/search/',
         params: {
-          q: 'searchValue',
+          q: `${searchValue}`,
           type: 'multi',
           offset: '0',
           limit: '10',
