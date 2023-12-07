@@ -12,6 +12,7 @@ const headerStyle = {
   backgroundColor: '#fff',
 };
 const contentStyle = {
+  backgroundColor: '#fff',
 };
 const Home = () => (
   <Space

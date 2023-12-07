@@ -1,10 +1,15 @@
 import React from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-
+import ErrorPage from "../error/errorpage";
+import ListComp from "../core/list";
+import Loader from "../core/loader";
+import "./movieapp.css";
 const GetMovieAppResults = () => {
   const searchSongValue = useSelector((state) => state.movieapp.searchvalue);
   const [songValue, setSongValue] = React.useState([]);
+  const [isError, setIsError] = React.useState(false);
+  // const [errorResult, setErrorResult] = React.useState({});
   React.useEffect(() => {
     fetchdata(searchSongValue);
   }, [searchSongValue]);
@@ -28,10 +33,20 @@ const GetMovieAppResults = () => {
       };
       try {
         const response = await axios.request(options);
-        console.log(response.data);
-        setSongValue(response.data);
+        let arr = [];
+        let obj = {};
+        for (let i in response.data) {
+          obj = {
+            title: i,
+          };
+          arr.push(obj);
+          obj = {};
+        }
+        setSongValue(arr);
       } catch (error) {
-        console.error(error);
+        console.error(error.response);
+        setIsError(true);
+        // setErrorResult(error);
       }
     }
   };
@@ -39,19 +54,25 @@ const GetMovieAppResults = () => {
   const displaySongs = () => {
     return (
       <>
-        {Object.keys(songValue).map((songTitle) => {
+        {songValue.length !== 0 ? (
+          <ListComp data={songValue} className="listResult" />
+        ) : (
+          <Loader />
+        )}
+        {/* {Object.keys(songValue).map((songTitle) => {
           return (
             <>
-              <li>{songTitle}</li>
+              <ListComp data={songValue}/>
             </>
           );
-        })}
+        })} */}
       </>
     );
   };
   return (
     <>
       {searchSongValue !== "" && displaySongs()}
+      {isError && <ErrorPage status={502} />}
     </>
   );
 };
