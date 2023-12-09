@@ -9,11 +9,15 @@ const GetMovieAppResults = () => {
   const searchSongValue = useSelector((state) => state.movieapp.searchvalue);
   const [songValue, setSongValue] = React.useState([]);
   const [isError, setIsError] = React.useState(false);
-  // const [errorResult, setErrorResult] = React.useState({});
+
   React.useEffect(() => {
     fetchdata(searchSongValue);
   }, [searchSongValue]);
+  
   const fetchdata = async (searchValue) => {
+    if(searchValue === "" || searchValue !== songValue){
+      setSongValue([]);
+    }
     if (searchValue !== "") {
       const options = {
         method: "GET",
@@ -59,13 +63,6 @@ const GetMovieAppResults = () => {
         ) : (
           <Loader />
         )}
-        {/* {Object.keys(songValue).map((songTitle) => {
-          return (
-            <>
-              <ListComp data={songValue}/>
-            </>
-          );
-        })} */}
       </>
     );
   };
