@@ -9,9 +9,11 @@ const GetMovieAppResults = () => {
   const searchSongValue = useSelector((state) => state.movieapp.searchvalue);
   const [songValue, setSongValue] = React.useState([]);
   const [isError, setIsError] = React.useState(false);
-
+// eslint-disable-next-line no-use-before-define
   React.useEffect(() => {
+    // eslint-disable-next-line no-use-before-define
     fetchdata(searchSongValue);
+    // eslint-disable-next-line no-use-before-define
   }, [searchSongValue]);
   
   const fetchdata = async (searchValue) => {
