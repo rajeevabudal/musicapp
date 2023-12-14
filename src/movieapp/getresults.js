@@ -4,16 +4,17 @@ import { useSelector } from "react-redux";
 import ErrorPage from "../error/errorpage";
 import ListComp from "../core/list";
 import Loader from "../core/loader";
+
 import "./movieapp.css";
+// import { Typography } from "antd";
+// const { Text } = Typography;
 const GetMovieAppResults = () => {
   const searchSongValue = useSelector((state) => state.movieapp.searchvalue);
   const [songValue, setSongValue] = React.useState([]);
   const [isError, setIsError] = React.useState(false);
-// eslint-disable-next-line no-use-before-define
   React.useEffect(() => {
-    // eslint-disable-next-line no-use-before-define
     const fetchdata = async (searchValue) => {
-      if(searchValue === "" || searchValue !== songValue){
+      if (searchValue === "" || searchValue !== songValue) {
         setSongValue([]);
       }
       if (searchValue !== "") {
@@ -37,13 +38,21 @@ const GetMovieAppResults = () => {
           const response = await axios.request(options);
           let arr = [];
           let obj = {};
-          for (let i in response.data) {
+          Object.entries(response.data).forEach(([key, data]) => {
             obj = {
-              title: i,
+              title: key,
             };
+            data.items.forEach((item) => {
+              Object.values(item).forEach((value) => {
+                obj.name = value.name;
+                
+              });
+              
+            });
             arr.push(obj);
             obj = {};
-          }
+            
+          });
           setSongValue(arr);
         } catch (error) {
           console.error(error.response);
@@ -53,16 +62,16 @@ const GetMovieAppResults = () => {
       }
     };
     fetchdata(searchSongValue);
-     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchSongValue]);
-  
- 
-
   const displaySongs = () => {
     return (
       <>
         {songValue.length !== 0 ? (
-          <ListComp data={songValue} className="listResult" />
+          <>
+            {/* <Text type="secondary">{songValue.title}</Text> */}
+            <ListComp data={songValue} className="listResult" />
+          </>
         ) : (
           <Loader />
         )}
