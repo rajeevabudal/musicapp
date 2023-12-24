@@ -6,7 +6,11 @@ const ListComp = ({ data, className }) => (
     dataSource={data}
     renderItem={(item, index) => (
       <List.Item className={className}>
-        <Card>{item.name}</Card>
+        <List.Item.Meta
+          title={item.title}
+          description=<Card>{item.name}</Card>
+        />
+        
       </List.Item>
     )}
   />

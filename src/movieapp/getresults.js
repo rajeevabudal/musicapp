@@ -4,10 +4,8 @@ import { useSelector } from "react-redux";
 import ErrorPage from "../error/errorpage";
 import ListComp from "../core/list";
 import Loader from "../core/loader";
-
 import "./movieapp.css";
-// import { Typography } from "antd";
-// const { Text } = Typography;
+
 const GetMovieAppResults = () => {
   const searchSongValue = useSelector((state) => state.movieapp.searchvalue);
   const [songValue, setSongValue] = React.useState([]);
@@ -38,19 +36,24 @@ const GetMovieAppResults = () => {
           const response = await axios.request(options);
           let arr = [];
           let obj = {};
+          
           Object.entries(response.data).forEach(([key, data]) => {
             obj = {
               title: key,
             };
+            
+            //console.log(data.items)
             data.items.forEach((item) => {
+              // console.log(item)
+              obj.name = []
               Object.values(item).forEach((value) => {
-                obj.name = value.name;
+                obj.name.push(value.name);
                 
               });
-              
-            });
             arr.push(obj);
             obj = {};
+            });
+            
             
           });
           setSongValue(arr);
@@ -64,12 +67,12 @@ const GetMovieAppResults = () => {
     fetchdata(searchSongValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchSongValue]);
+  console.log(songValue)
   const displaySongs = () => {
     return (
       <>
         {songValue.length !== 0 ? (
           <>
-            {/* <Text type="secondary">{songValue.title}</Text> */}
             <ListComp data={songValue} className="listResult" />
           </>
         ) : (
