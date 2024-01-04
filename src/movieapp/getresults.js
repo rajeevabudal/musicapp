@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import ErrorPage from "../error/errorpage";
 import ListComp from "../core/list";
 import Loader from "../core/loader";
+import { Col, Row } from "antd";
 import "./movieapp.css";
 
 const GetMovieAppResults = () => {
@@ -36,25 +37,25 @@ const GetMovieAppResults = () => {
           const response = await axios.request(options);
           let arr = [];
           let obj = {};
-          
+
           Object.entries(response.data).forEach(([key, data]) => {
             obj = {
               title: key,
             };
-            
-            //console.log(data.items)
+            obj.name = [];
+            // console.log("data",data.items)
             data.items.forEach((item) => {
-              // console.log(item)
-              obj.name = []
+            //  console.log("item",item)
+              
               Object.values(item).forEach((value) => {
+                // console.log(value.name);
                 obj.name.push(value.name);
-                
               });
+              
+              
+            });
             arr.push(obj);
             obj = {};
-            });
-            
-            
           });
           setSongValue(arr);
         } catch (error) {
@@ -67,13 +68,17 @@ const GetMovieAppResults = () => {
     fetchdata(searchSongValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchSongValue]);
-  console.log(songValue)
+  console.log(songValue);
   const displaySongs = () => {
     return (
       <>
         {songValue.length !== 0 ? (
           <>
-            <ListComp data={songValue} className="listResult" />
+            <Row gutter={16}>
+              <Col span={6}>
+                <ListComp data={songValue} className="listResult" />
+              </Col>
+            </Row>
           </>
         ) : (
           <Loader />
