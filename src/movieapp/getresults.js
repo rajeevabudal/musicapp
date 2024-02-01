@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Col, Row, Card } from "antd";
+import { Row, Col, Card } from "antd";
 import ErrorPage from "../error/errorpage";
-import ListComp from "../core/list";
+// import ListComp from "../core/list";
 import Loader from "../core/loader";
 import "./movieapp.css";
 
@@ -13,7 +13,7 @@ const GetMovieAppResults = () => {
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    const fetchdata = async (searchValue) => {
+    const fetchData = async (searchValue) => {
       if (searchValue === "" || searchValue !== songValue) {
         setSongValue([]);
       }
@@ -30,7 +30,8 @@ const GetMovieAppResults = () => {
             numberOfTopResults: "5",
           },
           headers: {
-            "X-RapidAPI-Key": "70143dc9c7msh6ff1068fea1b043p146d23jsn3df8381f9773",
+            "X-RapidAPI-Key":
+              "70143dc9c7msh6ff1068fea1b043p146d23jsn3df8381f9773",
             "X-RapidAPI-Host": "spotify23.p.rapidapi.com",
           },
         };
@@ -38,7 +39,7 @@ const GetMovieAppResults = () => {
         try {
           const response = await axios.request(options);
           let arr = [];
-
+          console.log(response.data);
           Object.entries(response.data).forEach(([key, data]) => {
             let obj = {
               title: key,
@@ -62,30 +63,27 @@ const GetMovieAppResults = () => {
       }
     };
 
-    fetchdata(searchSongValue);
+    fetchData(searchSongValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchSongValue]);
-
+  console.log(songValue);
   const displaySongs = () => {
     return (
       <>
-        <Card title="Card title" bordered={true}>
-          card title
-        </Card>
         {songValue.length !== 0 ? (
           songValue.map((item) => (
-            <React.Fragment key={item.title}>
-              {item.title}
-              {item.name.map((val) => (
-                <Row gutter={16} key={val}>
-                  <Col span={8}>
-                    <Card title="Card title" bordered={true}>
+            <Row gutter={16} key={item.title}>
+              <Col span={24} className="resultItem">
+                {item.title}
+                {item.name.map((val) => (
+                  <>
+                    <Card key={val} bordered={true}>
                       {val}
                     </Card>
-                  </Col>
-                </Row>
-              ))}
-            </React.Fragment>
+                  </>
+                ))}
+              </Col>
+            </Row>
           ))
         ) : (
           <Loader />
