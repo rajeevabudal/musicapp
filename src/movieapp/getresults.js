@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Row, Col, Card } from "antd";
+import { Row, Col, Card, Divider, Space } from "antd";
 import ErrorPage from "../error/errorpage";
 // import ListComp from "../core/list";
 import Loader from "../core/loader";
@@ -41,18 +41,20 @@ const GetMovieAppResults = () => {
           let arr = [];
           console.log(response.data);
           Object.entries(response.data).forEach(([key, data]) => {
-            let obj = {
-              title: key,
-              name: [],
-            };
+            if (data.totalCount !== 0) {
+              let obj = {
+                title: key,
+                name: [],
+              };
 
-            data.items.forEach((item) => {
-              Object.values(item).forEach((value) => {
-                obj.name.push(value.name);
+              data.items.forEach((item) => {
+                Object.values(item).forEach((value) => {
+                  obj.name.push(value.name);
+                });
               });
-            });
 
-            arr.push(obj);
+              arr.push(obj);
+            }
           });
 
           setSongValue(arr);
@@ -74,15 +76,24 @@ const GetMovieAppResults = () => {
           songValue.map((item) => (
             <Row gutter={16} key={item.title}>
               <Col span={24} className="resultItem">
-                {item.title}
-                {item.name.map((val) => (
-                  <>
-                    <Card key={val} bordered={true}>
-                      {val}
-                    </Card>
-                  </>
-                ))}
+                <Space
+                  direction="horizontal"
+                  size="middle"
+                  style={{
+                    display: "flex",
+                  }}
+                >
+                  {item.title}
+                  {item.name.map((val) => (
+                    <>
+                      <Card key={val} bordered={true}>
+                        {val}
+                      </Card>
+                    </>
+                  ))}
+                </Space>
               </Col>
+              <Divider />
             </Row>
           ))
         ) : (
